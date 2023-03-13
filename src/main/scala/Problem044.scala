@@ -11,19 +11,19 @@ difference are pentagonal and D = |P[k] − P[j]| is minimised; what is the
 value of D?
 */
 object Problem044 extends App {
-  def pentagonal(n: Int) = n * (3 * n - 1) / 2
-
-  val isPentagonal = (Iterator from 1).map(pentagonal).takeWhile(_ > 0).toSet
-
-  def minimumDifference =
-    var result = Int.MaxValue
-    for k <- 2 to isPentagonal.size do
-      val pk = pentagonal(k)
-      val js = k - 1 to 1 by -1
-      for pj <- js.map(pentagonal).takeWhile(pk - _ < result) do
-        if isPentagonal(pj + pk) && isPentagonal(pk - pj) then
-          result = pk - pj
-    result
-
-  println(minimumDifference)
+	def pentagonal(n: Int) = n * (3 * n - 1) / 2
+	
+	val isPentagonal = (Iterator from 1).map(pentagonal).takeWhile(_ > 0).toSet
+	
+	def minimumDifference =
+		var result = Int.MaxValue
+		for k <- 2 to isPentagonal.size do
+			val pk = pentagonal(k)
+			val js = k - 1 to 1 by -1
+			for pj <- js.map(pentagonal).takeWhile(pk - _ < result) do
+				if isPentagonal(pj + pk) && isPentagonal(pk - pj) then
+					result = pk - pj
+		result
+	
+	println(minimumDifference)
 }

@@ -10,18 +10,23 @@ square.
 It turns out that the conjecture was false.
 What is the smallest odd composite that cannot be written as the sum of a prime and twice a square?
 */
+
 import Math.pow
+
 object Problem046 extends App {
-  def isPrime(n: Int) = BigInt(n).isProbablePrime(1)
-  val primes = 2 #:: LazyList.range(3, Int.MaxValue, 2).filter(isPrime)
-  val oddComposites = LazyList.range(9, Int.MaxValue, 2).filterNot(isPrime)
-  val doubleSquares = (LazyList from 1).map(pow(_, 2).toInt * 2)
-  def isGoldbach(oddComposite: Int): Boolean =
-    for prime <- primes.takeWhile(_ < oddComposite)
-        doubleSquare = doubleSquares.dropWhile(_ < oddComposite - prime).head
-        if oddComposite == prime + doubleSquare
-      do return true
-    false
-  val answer = oddComposites.filterNot(isGoldbach).head
-  println(answer)
+	def isPrime(n: Int) = BigInt(n).isProbablePrime(1)
+	
+	val primes = 2 #:: LazyList.range(3, Int.MaxValue, 2).filter(isPrime)
+	val oddComposites = LazyList.range(9, Int.MaxValue, 2).filterNot(isPrime)
+	val doubleSquares = (LazyList from 1).map(pow(_, 2).toInt * 2)
+	
+	def isGoldbach(oddComposite: Int): Boolean =
+		for prime <- primes.takeWhile(_ < oddComposite)
+		    doubleSquare = doubleSquares.dropWhile(_ < oddComposite - prime).head
+		    if oddComposite == prime + doubleSquare
+		do return true
+		false
+	
+	val answer = oddComposites.filterNot(isGoldbach).head
+	println(answer)
 }

@@ -13,18 +13,18 @@ What is the largest 1 to 9 pandigital 9-digit number that can be formed as the c
 (1,2, ... , n) where n > 1?
 */
 object Problem038 extends App {
-  def answer: Int =
-    for {
-      p <- (9 to 1 by -1).permutations map (_.mkString)
-      i <- (1 to 4) map (p.take(_).toInt)
-    } do
-      var q = ""
-      var j = 0
-      while q.length < 9 && p.startsWith(q) do
-        j += i
-        q += j.toString
-        if q == p then return p.toInt
-    0
-
-  println(answer)
+	def answer: Int =
+		for {
+			p <- (9 to 1 by -1).permutations map (_.mkString)
+			i <- (1 to 4) map (p.take(_).toInt)
+		} do
+			var q = ""
+			var j = 0
+			while q.length < 9 && p.startsWith(q) do
+				j += i
+				q += j.toString
+				if q == p then return p.toInt
+		0
+	
+	println(answer)
 }

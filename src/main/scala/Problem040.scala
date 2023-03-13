@@ -8,7 +8,7 @@ If d[n] represents the nth digit of the fractional part, find the value of the f
   d[1] × d[10] × d[100] × d[1000] × d[10000] × d[100000] × d[1000000]
 */
 object Problem040 extends App {
-  val d = (0 to 200_000).mkString.take(1_000_001).map(_ - '0')
-  val answer = d(1) * d(10) * d(100) * d(1_000) * d(10_000) * d(100_000) * d(1_000_000)
-  println(answer)
+	val d = (0 to 200_000).mkString.take(1_000_001).map(_ - '0')
+	val answer = d(1) * d(10) * d(100) * d(1_000) * d(10_000) * d(100_000) * d(1_000_000)
+	println(answer)
 }

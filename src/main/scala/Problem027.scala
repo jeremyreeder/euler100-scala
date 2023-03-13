@@ -13,12 +13,16 @@ Considering quadratics of the form:
 Find the product of the coefficients, a and b, for the quadratic expression that produces the maximum number of primes
 for consecutive values of n, starting with n = 0.
 */
+
 import Math.pow
+
 object Problem027 extends App {
-  def consecutivePrimeCount(a: Int, b:Int) =
-    def quadratic(a: Int, b: Int, n: Int) = BigInt(pow(n, 2).toLong) + BigInt(a) * n + b
-    (LazyList from 0).takeWhile(quadratic(a, b, _).isProbablePrime(1)).length
-  val combinations = (-999 to 999).flatMap(a => (-1000 to 1000).map(b => (a, b)))
-  val answer = combinations.maxBy(consecutivePrimeCount).toList.product
-  println(answer)
+	private def consecutivePrimeCount(a: Int, b: Int) =
+		def quadratic(a: Int, b: Int, n: Int) = BigInt(pow(n, 2).toLong) + BigInt(a) * n + b
+		
+		(LazyList from 0).takeWhile(quadratic(a, b, _).isProbablePrime(1)).length
+	
+	private val combinations = (-999 to 999).flatMap(a => (-1000 to 1000).map(b => (a, b)))
+	val answer = combinations.maxBy(consecutivePrimeCount).toList.product
+	println(answer)
 }

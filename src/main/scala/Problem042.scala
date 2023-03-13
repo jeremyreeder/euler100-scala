@@ -9,19 +9,21 @@ number then we shall call the word a triangle word.
 Using words.txt (right click and 'Save Link/Target As...'), a 16K text file containing nearly two-thousand common
 English words, how many are triangle words?
 */
+
 import io.Source
+
 object Problem042 extends App {
-  val words =
-    // Parse a file consisting of a series of quoted words, separated by commas.
-    Source.fromFile("words.txt").mkString.split(",").map(_.drop(1).dropRight(1)).toList
-
-  def value(word: String) =
-    // Words are in all caps. '@' immediately precedes 'A' in ASCII. Values depend on how far after '@' the letters are.
-    word.map(_ - '@').sum
-
-  val maxWordValue = words.map(value).max
-  val triangularNumbers = (LazyList from 1).map(n => n * (n + 1) / 2).takeWhile(_ <= maxWordValue)
-  val triangularWords = words.filter(triangularNumbers contains value(_))
-  val answer = triangularWords.size
-  println(answer)
+	val words =
+	// Parse a file consisting of a series of quoted words, separated by commas.
+		Source.fromFile("042-words.txt").mkString.split(",").map(_.drop(1).dropRight(1)).toList
+	
+	def value(word: String) =
+	// Words are in all caps. '@' immediately precedes 'A' in ASCII. Values depend on how far after '@' the letters are.
+		word.map(_ - '@').sum
+	
+	val maxWordValue = words.map(value).max
+	val triangularNumbers = (LazyList from 1).map(n => n * (n + 1) / 2).takeWhile(_ <= maxWordValue)
+	val triangularWords = words.filter(triangularNumbers contains value(_))
+	val answer = triangularWords.size
+	println(answer)
 }

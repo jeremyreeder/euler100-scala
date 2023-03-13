@@ -6,11 +6,10 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 even-valued terms.
 */
 object Problem002 extends App {
-  def fibonacci: LazyList[Int] =
-    def loop(a: Int, b: Int): LazyList[Int] = (a + b) #:: loop(b, a + b)
-    loop(0, 1)
-
-  println((fibonacci take 10).toList)
-  val answer = (fibonacci takeWhile (_ <= 4_000_000) filter (_ % 2 == 0)).sum
-  println(answer)
+	private def fibonacci: LazyList[Int] =
+		def loop(a: Int, b: Int): LazyList[Int] = (a + b) #:: loop(b, a + b)
+		loop(0, 1)
+	
+	val answer = fibonacci.takeWhile(_ <= 4_000_000).filter(_ % 2 == 0).sum
+	println(answer)
 }

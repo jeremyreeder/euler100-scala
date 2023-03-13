@@ -15,18 +15,19 @@ are given:
 Find the value of d < 1000 for which 1/d contains the longest recurring cycle in its decimal fraction part.
 */
 object Problem026 extends App {
-  def cycleLength(q: Int): Int =
-    if q > 1 then // Floyd's algorithm
-      var length = 1
-      var tortoise = 1 % q
-      var hare = 10 % q
-      while tortoise != hare do
-        tortoise = (tortoise * 10) % q
-        hare = (hare * 10) % q
-        hare = (hare * 10) % q
-        length += 1
-      length
-    else 0
-  val answer = (2 until 1000).distinct.maxBy(cycleLength(_))
-  println(answer)
+	private def cycleLength(q: Int): Int =
+		if q > 1 then // Floyd's algorithm
+			var length = 1
+			var tortoise = 1 % q
+			var hare = 10 % q
+			while tortoise != hare do
+				tortoise = (tortoise * 10) % q
+				hare = (hare * 10) % q
+				hare = (hare * 10) % q
+				length += 1
+			length
+		else 0
+	
+	val answer = (2 until 1000).distinct.maxBy(cycleLength(_))
+	println(answer)
 }
