@@ -33,8 +33,8 @@ object Problem008 extends App {
 	private val length = 13
 	private val starts = 0 until series.size - length
 	
-	private def segment(start: Int) = series.slice(start, start + length)
+	def segment(start: Int) = series.slice(start, start + length)
 	
-	private val products = starts map (segment(_).product)
+	val products = starts map (segment(_).product)
 	println(products.max)
 }

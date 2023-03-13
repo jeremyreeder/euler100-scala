@@ -12,7 +12,7 @@ What is the sum of the numbers on the diagonals in a 1001 by 1001 spiral formed 
 import Math.pow
 
 object Problem028 extends App {
-	private def cornerSum(length: Int) =
+	def cornerSum(length: Int) =
 		length match
 			case n if n < 1 => throw Exception("The diagonal length of a square spiral must be positive.")
 			case 1 => 1

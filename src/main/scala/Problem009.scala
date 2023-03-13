@@ -9,14 +9,14 @@ Find the product abc.
 import Math.pow
 
 object Problem009 extends App {
-	private def pythagoreanTriplets =
+	def pythagoreanTriplets =
 		for a <- 1 to 1000
 		    b <- a + 1 to 1000 - a
 		    c <- b + 1 to 1000 - a - b
 		    if pow(a, 2) + pow(b, 2) == pow(c, 2)
 		yield (a, b, c)
 	
-	private def special(a: Int, b: Int, c: Int) =
+	def special(a: Int, b: Int, c: Int) =
 		a + b + c == 1000
 	
 	val answer = pythagoreanTriplets.find(special).get.toList.product

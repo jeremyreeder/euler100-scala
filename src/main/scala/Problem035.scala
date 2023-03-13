@@ -6,9 +6,9 @@ How many circular primes are there below one million?
 object Problem035 extends App {
 	def isPrime(n: Int) = BigInt(n).isProbablePrime(3)
 	
-	private val smallPrimes = 2 #:: LazyList.range(3, Int.MaxValue, 2) filter isPrime takeWhile (_ < 1_000_000)
+	val smallPrimes = 2 #:: LazyList.range(3, Int.MaxValue, 2) filter isPrime takeWhile (_ < 1_000_000)
 	
-	private def isCircular(prime: Int): Boolean =
+	def isCircular(prime: Int): Boolean =
 		val s = prime.toString
 		for rotation <- 1 to s.length - 1
 		    rotated = ((s drop rotation).take(s.length - rotation) + s.take(rotation)).toInt

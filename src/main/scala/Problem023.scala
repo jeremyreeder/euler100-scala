@@ -16,14 +16,14 @@ this limit.
 Find the sum of all the positive integers which cannot be written as the sum of two abundant numbers.
 */
 object Problem023 extends App {
-	private def properDivisors(n: Int) = 1 to n / 2 filter (n % _ == 0)
+	def properDivisors(n: Int) = 1 to n / 2 filter (n % _ == 0)
 	
 	def memoize[I, O](f: I => O): I => O =
 		new mutable.HashMap[I, O]() {
 			override def apply(key: I) = getOrElseUpdate(key, f(key))
 		}
 	
-	private lazy val isAbundant: Int => Boolean = memoize {
+	lazy val isAbundant: Int => Boolean = memoize {
 		n => properDivisors(n).sum > n
 	}
 	val limit = 28123
@@ -31,10 +31,8 @@ object Problem023 extends App {
 		for x <- 1 to limit - 1 if isAbundant(x)
 		    y <- x to limit - x if isAbundant(y)
 		yield (x, y)
-	private val numbersWritableAsSumOfTwoAbundantSums = {
-		abundantPairs map (_ + _)
-	}.distinct
-	private val numbersNotWritableThatWay = 1 to limit filterNot (numbersWritableAsSumOfTwoAbundantSums contains _)
-	private val answer = numbersNotWritableThatWay.sum
+	val numbersWritableAsSumOfTwoAbundantSums = abundantPairs.map(_ + _).distinct
+	val numbersNotWritableThatWay = 1 to limit filterNot (numbersWritableAsSumOfTwoAbundantSums contains _)
+	val answer = numbersNotWritableThatWay.sum
 	println(answer)
 }

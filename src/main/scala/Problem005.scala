@@ -3,10 +3,10 @@
 What is the smallest positive number that is evenly divisible by all of the numbers from 1 to 20?
 */
 object Problem005 extends App {
-	private def isDivisibleByAllMyDivisors(n: Int) =
+	def isDivisibleByAllMyDivisors(n: Int) =
 		val myDivisors = 1 to 20
 		if myDivisors exists (n % _ != 0) then false else true
 	
-	private val answer = (LazyList from 1).find(isDivisibleByAllMyDivisors).get
+	val answer = (LazyList from 1).find(isDivisibleByAllMyDivisors).get
 	println(s"The smallest number evenly divisible by all numbers from 1 to 20 is $answer.")
 }

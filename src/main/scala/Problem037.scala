@@ -20,7 +20,7 @@ object Problem037 extends App {
 			override def apply(key: I) = getOrElseUpdate(key, f(key))
 		}
 	
-	private val primesByLength: Int => LazyList[Int] = memoize {
+	val primesByLength: Int => LazyList[Int] = memoize {
 		length =>
 			primes.dropWhile(_ < pow(10, length - 1)).takeWhile(_ < pow(10, length))
 	}

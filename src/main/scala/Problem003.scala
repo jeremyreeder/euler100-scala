@@ -10,7 +10,7 @@ object Problem003 extends App {
 		LazyList range(5L, sqrt(Long.MaxValue).toLong, 2L)
 	} filter { n => (2L to sqrt(n).toLong) forall (n % _ != 0) }
 	
-	private def largestPrimeFactor(n: Long) =
+	def largestPrimeFactor(n: Long) =
 		var x = n
 		var result = 1L
 		while x > result do

@@ -6,7 +6,7 @@ By considering the terms in the Fibonacci sequence whose values do not exceed fo
 even-valued terms.
 */
 object Problem002 extends App {
-	private def fibonacci: LazyList[Int] =
+	def fibonacci: LazyList[Int] =
 		def loop(a: Int, b: Int): LazyList[Int] = (a + b) #:: loop(b, a + b)
 		loop(0, 1)
 	

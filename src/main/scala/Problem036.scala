@@ -4,7 +4,7 @@ Find the sum of all numbers, less than one million, which are palindromic in bas
 (Please note that the palindromic number, in either base, may not include leading zeros.)
 */
 object Problem036 extends App {
-	private def isDoublePalindrome(n: Int) = {
+	def isDoublePalindrome(n: Int) = {
 		val d = n.toString; d.reverse == d
 	} && {
 		val b = n.toBinaryString; b.reverse == b
