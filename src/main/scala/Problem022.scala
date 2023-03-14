@@ -1,7 +1,7 @@
 import scala.io.Source
 
 object Problem022 extends App {
-	val nameFile = Source fromFile "022-names.txt"
+	val nameFile = Source fromFile "022_names.txt"
 	val namesText = nameFile.getLines.mkString
 	nameFile.close()
 	val namePattern = "(?<=\")([A-Z]+)(?=\")".r

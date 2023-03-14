@@ -15,7 +15,7 @@ import io.Source
 object Problem042 extends App {
 	val words =
 	// Parse a file consisting of a series of quoted words, separated by commas.
-		Source.fromFile("042-words.txt").mkString.split(",").map(_.drop(1).dropRight(1)).toList
+		Source.fromFile("042_words.txt").mkString.split(",").map(_.drop(1).dropRight(1)).toList
 	
 	def value(word: String) =
 	// Words are in all caps. '@' immediately precedes 'A' in ASCII. Values depend on how far after '@' the letters are.
