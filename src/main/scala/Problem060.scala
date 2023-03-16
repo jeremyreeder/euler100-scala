@@ -5,11 +5,11 @@ result will always be prime. For example, taking 7 and 109, both 7109 and 1097 a
 
 Find the lowest sum for a set of five primes for which any two primes concatenate to produce another prime.
 */
-import scala.collection.mutable.ArrayBuffer
+import collection.mutable.ArrayBuffer
 
 object Problem060 extends App {
 
-	def isPrime(n: Int) = BigInt(n).isProbablePrime(8)
+	def isPrime(n: Int) = BigInt(n).isProbablePrime(certainty = 8)
 	
 	def concat(a: Int, b: Int): Int = (a.toString + b.toString).toInt
 	
@@ -20,10 +20,10 @@ object Problem060 extends App {
 		
 		def search(depth: Int, accumulator: ArrayBuffer[Int]): Unit =
 			if depth == 5 then result += accumulator.clone()
-			else for p <- primes if (accumulator.forall(q => p < q && isPairPrime(p, q))) do
+			else for p <- primes if accumulator.forall(q => p < q && isPairPrime(p, q)) do
 					accumulator += p
 					search(depth + 1, accumulator)
-					accumulator.trimEnd(1)
+					accumulator.dropRightInPlace(1)
 		
 		for p <- primes do search(1, ArrayBuffer(p))
 		result.toList
