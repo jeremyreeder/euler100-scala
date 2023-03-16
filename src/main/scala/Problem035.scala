@@ -10,12 +10,12 @@ object Problem035 extends App {
 	
 	def isCircular(prime: Int): Boolean =
 		val s = prime.toString
-		for {
-			rotation <- 1 until s.length
-			rotated = (s.drop(rotation).take(s.length - rotation) + s.take(rotation)).toInt
-		} do if !isPrime(rotated) then return false
+		for rotation <- 1 until s.length do
+			val (start, end) = s.splitAt(rotation)
+			val rotated = (end + start).toInt
+			if !isPrime(rotated) then return false
 		true
 	
-	val answer = (smallPrimes filter isCircular).size
+	val answer = smallPrimes.count(isCircular)
 	println(answer)
 }
