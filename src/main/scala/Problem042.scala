@@ -13,9 +13,10 @@ English words, how many are triangle words?
 import io.Source
 
 object Problem042 extends App {
-	val words =
-	// Parse a file consisting of a series of quoted words, separated by commas.
-		Source.fromFile("042_words.txt").mkString.split(",").map(_.drop(1).dropRight(1)).toList
+	val file = Source.fromFile("042_words.txt")
+	val words = // Parse a file consisting of a series of quoted words, separated by commas.
+		try { file.mkString.split(",").map(_.drop(1).dropRight(1)).toList }
+		finally { file.close() }
 	
 	def value(word: String) =
 	// Words are in all caps. '@' immediately precedes 'A' in ASCII. Values depend on how far after '@' the letters are.
