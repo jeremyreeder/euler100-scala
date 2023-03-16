@@ -7,4 +7,8 @@ lazy val root = (project in file("."))
 		name := "euler"
 	)
 
-libraryDependencies +=  "org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4"
+libraryDependencies ++=
+	Seq(
+		"org.scala-lang.modules" %% "scala-parallel-collections" % "1.0.4",
+		"org.scalatest" %% "scalatest" % "3.2.15" % "test"
+	)
