@@ -12,7 +12,7 @@ class SpeedTest extends AnyFreeSpec with ParallelTestExecution {
 	val timeLimit = 5.seconds
 	implicit val ec: ExecutionContext = ExecutionContext.global
 	for problem <- 1 to 100 do
-		s"Problem $problem should be solved within $timeLimit seconds." in {
+		s"Problem $problem should be solved within $timeLimit." in {
 			val solution = Future { solve(problem) }
 			Await.result(solution, timeLimit)
 		}
