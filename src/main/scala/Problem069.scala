@@ -19,5 +19,6 @@ object Problem069 extends App {
 	println(System.currentTimeMillis() - startTime)
 	println(answer)
 	
-	//TODO: Make it faster. This has yet to complete, and it may never complete without a more efficient approach.
+	// TODO: Make it faster. This has yet to complete, so I need a more efficient approach.
+	// Eureka! The phi function is multiplicative, which means that phi(m * n) = phi(m) * phi(n) whenever gcd(m, n) = 1.
 }
