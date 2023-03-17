@@ -38,4 +38,6 @@ object Problem059 extends App {
 			maxLowercaseLetters = lowerCaseLetterCount
 	val answer = plaintext.map(_.toInt).sum
 	println(answer)
+	
+	// TODO: Make it faster. The goal is 5 seconds.
 }

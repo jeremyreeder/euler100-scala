@@ -38,4 +38,6 @@ object Problem060 extends App {
 	// Find the set with the smallest sum
 	val answer = primeSets.map(_.sum).min
 	println(answer)
+	
+	//TODO: Make it faster. This takes about 28 seconds to complete.
 }
