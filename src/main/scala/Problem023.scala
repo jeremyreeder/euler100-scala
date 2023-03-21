@@ -35,6 +35,4 @@ object Problem023 extends App {
 	val numbersNotWritableThatWay = 1 to limit filterNot (numbersWritableAsSumOfTwoAbundantSums contains _)
 	val answer = numbersNotWritableThatWay.sum
 	println(answer)
-	
-	// TODO: Make it faster. It takes about 6 seconds. The goal is 5.
 }

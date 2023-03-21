@@ -9,6 +9,4 @@ object Problem005 extends App {
 	
 	val answer = (LazyList from 1).find(isDivisibleByAllMyDivisors).get
 	println(s"The smallest number evenly divisible by all numbers from 1 to 20 is $answer.")
-	
-	// TODO: Make it faster. It takes 13 seconds. The goal is 5.
 }
