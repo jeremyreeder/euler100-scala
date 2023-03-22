@@ -5,26 +5,29 @@ The cube, 41063625 (345^3), can be permuted to produce two other cubes: 56623104
 Find the smallest cube for which exactly five permutations of its digits are cube.
 */
 import Math.cbrt
-import util.control.Breaks.{break, breakable}
+import System.currentTimeMillis
 
 object Problem062 extends App {
-	val cubes = LazyList.range(1, Int.MaxValue).map(n => BigInt(n) * n * n)
+	val cubes = LazyList.range(1L, cbrt(Long.MaxValue).toLong).map(n => n * n * n)
 	
-	def isPerfectCube(n: BigInt) =
-		val root = cbrt(n.toDouble)
+	def isCube(n: Long) =
+		val root = cbrt(n)
 		root == root.floor
 	
-	var answer = BigInt(0)
-	breakable {
+	def answer: Option[Long] =
 		for cube <- cubes do
-			val permutations = cube.toString.permutations.filterNot(_.head == '0').map(BigInt.apply)
-			val cubicPermutations = permutations.filter(isPerfectCube).toList
-			if cubicPermutations.size == 5 then
-				println(cubicPermutations)
-				answer = cubicPermutations.min
-				break
+			val largerCubicPermutations =
+				cube.toString.permutations.map(_.toLong).filter(_ > cube).filter(isCube)
+			if largerCubicPermutations.size == 4 then
+				return Some(cube)
+		None
+	
+	val startTime = currentTimeMillis()
+	answer match {
+		case Some(number) => println(number)
+		case None => throw Error("No answer found.")
 	}
-	println(answer)
+	println(s"That took ${currentTimeMillis() - startTime} milliseconds.")
 	
 	// TODO: Speed this up. It's way too dang slow. I have not yet seen its answer.
 }
