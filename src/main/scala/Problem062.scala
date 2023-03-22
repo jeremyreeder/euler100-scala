@@ -29,5 +29,5 @@ object Problem062 extends App {
 	}
 	println(s"That took ${currentTimeMillis() - startTime} milliseconds.")
 	
-	// TODO: Speed this up. It's way too dang slow. I have not yet seen its answer.
+	// TODO: Speed this up. It takes 51 minutes.
 }
