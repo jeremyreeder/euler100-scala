@@ -17,20 +17,18 @@ The ordered set of three 4-digit numbers: 8128, 2882, 8281, has three interestin
 Find the sum of the only ordered set of six cyclic 4-digit numbers for which each polygonal type: triangle, square,
 pentagonal, hexagonal, heptagonal, and octagonal, is represented by a different number in the set.
 */
-import util.control.Breaks.{break, breakable}
-
 object Problem061 extends App {
 	
 	val buckets =
 		val inputRange = LazyList.range(0, Int.MaxValue)
 		def constrict(range: Iterable[Int]) = range.dropWhile(_ < 1010).filter(_ % 100 >= 10).takeWhile (_ <= 9999)
 		List(
-			constrict(inputRange.map(n => n * (n + 1) / 2)),
-			constrict(inputRange.map(n => n * n)),
-			constrict(inputRange.map(n => n * (3 * n - 1) / 2))
-			//(n: Int) => n * (2 * n - 1),      // hexagons
-			//(n: Int) => n * (5 * n - 3) / 2,  // heptagons
-			//(n: Int) => n * (3 * n - 2)       // octogons
+			constrict(inputRange.map(n => n * (n + 1) / 2)),     // triangles
+			constrict(inputRange.map(n => n * n)),               // squares
+			constrict(inputRange.map(n => n * (3 * n - 1) / 2)), // pentagons
+			constrict(inputRange.map(n => n * (2 * n - 1))),     // hexagons
+			constrict(inputRange.map(n => n * (5 * n - 3) / 2)), // heptagons
+			constrict(inputRange.map(n => n * (3 * n - 2)))      // octogons
 		)
 	
 	def isCyclic(sequence: Seq[Int]) =
@@ -39,29 +37,37 @@ object Problem061 extends App {
 			j = (i + 1) % sequence.size
 		} do sequence(i) % 100 == sequence(j) / 100
 	
-	def answer: Option[Seq[Int]] =
-		for bucketOrder <- "012".permutations.map(s => s.map(_ - '0')) do
+	def answer: Option[Int] =
+		for bucketOrder <- "012345".permutations.map(s => s.map(_ - '0')) do
 			for {
 				a <- buckets(bucketOrder(0))
-				ca = a / 100
+				fa = a / 100
 				ab = a % 100
-			} do
-				var filter = ((b: Int) => b != a)
-				for {
-					b <- buckets(bucketOrder(1)).dropWhile(_ <= ab * 100)
-						.filter(_ != a).takeWhile(_ < (ab + 1) * 100)
-					bc = b % 100
-				} do
-					for {
-						c <- buckets(bucketOrder(2)).dropWhile(_ <= bc * 100)
-							.filter(_ != b).filter(_ % 100 == ca).takeWhile(_ < (bc + 1) * 100)
-					} do
-						return Some(Seq(a, b, c))
+			} do for {
+				b <- buckets(bucketOrder(1)).dropWhile(_ <= ab * 100).takeWhile(_ < (ab + 1) * 100)
+					.filter(_ != a)
+				bc = b % 100
+			} do for {
+				c <- buckets(bucketOrder(2)).dropWhile(_ <= bc * 100).takeWhile(_ < (bc + 1) * 100)
+					.filterNot(Seq(a, b) contains _)
+				cd = c % 100
+			} do for {
+				d <- buckets(bucketOrder(3)).dropWhile(_ <= cd * 100).takeWhile(_ < (cd + 1) * 100)
+					.filterNot(Seq(a, b, c) contains _)
+				de = d % 100
+			} do for {
+				e <- buckets(bucketOrder(4)).dropWhile(_ <= de * 100).takeWhile(_ < (de + 1) * 100)
+					.filterNot(Seq(a, b, c, d) contains _)
+				ef = e % 100
+			} do for {
+				f <- buckets(bucketOrder(5)).dropWhile(_ <= ef * 100).takeWhile(_ < (ef + 1) * 100)
+					.filterNot(Seq(a, b, c, d, e) contains _)
+					.filter(_ % 100 == fa)
+			} do return Some(a + b + c + d + e + f)
 		None
 	
 	answer match {
 		case Some(number) => println(number)
 		case None => throw Error("Found no answer.")
 	}
-	// TODO: Solve for the longer sequence rather than the example one.
 }
