@@ -21,17 +21,6 @@ problem.
 Find the number of characters saved by writing each of these in their minimal form.
 Note: You can assume that all the Roman numerals in the file contain no more than four consecutive identical units.
 */
-/* Additive Rules
-	1. Numerals must be arranged in descending order of size.
-	2. M, C, and X cannot be equalled or exceeded by smaller denominations.
-	3. D, L, and V can each only appear once.
-*/
-/* Subtractive Rules
-	4. Only one I, X, and C can be used as the leading numeral in part of a subtractive pair.
-	5. I can only be placed before V and X.
-	6. X can only be placed before L and C.
-	7. C can only be placed before D and M.
-*/
 import scala.io.Source
 
 object Problem089 extends App {
@@ -40,8 +29,8 @@ object Problem089 extends App {
 		romanNumber
 			.replaceFirst("VIIII", "IX")
 			.replaceFirst("IIII", "IV")
-			.replaceFirst("XIIII", "XC")
 			.replaceFirst("XXXX", "XL")
+			.replaceFirst("LXL", "XC")
 			.replaceFirst("DCCCC", "CM")
 			.replaceFirst("CCCC", "CD")
 	
@@ -55,5 +44,5 @@ object Problem089 extends App {
 		romanFile.close()
 		charCountBefore - charCountAfter
 	
-	println(answer) // 695, but that's wrong.
+	println(answer)
 }
