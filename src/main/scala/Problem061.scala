@@ -38,7 +38,7 @@ object Problem061 extends App {
 		} do sequence(i) % 100 == sequence(j) / 100
 	
 	def answer: Option[Int] =
-		for bucketOrder <- "012345".permutations.map(s => s.map(_ - '0')) do
+		for bucketOrder <- (0 to 5).permutations do
 			for {
 				a <- buckets(bucketOrder(0))
 				fa = a / 100
