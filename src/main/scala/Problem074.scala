@@ -21,7 +21,7 @@ How many chains, with a starting number below one million, contain exactly sixty
 object Problem074 extends App {
 	val factorial = (0 to 9).map(k => k -> (1 to k).product).toMap
 	
-	def sumOfDigitFactorials(n: Int) = n.toString.map(_ - '0').map(factorial).sum
+	def sumOfDigitFactorials(n: Int) = n.toString.map(_.asDigit).map(factorial).sum
 	
 	def hasNonrepetitiveChainOfExactLength(n: Int, length: Int): Boolean =
 		var chain = Seq(n)

@@ -6,5 +6,5 @@ object Problem065 extends App {
 		a = b
 		b = c
 	}
-	println(b.toString.map(_ - '0').sum)
+	println(b.toString.map(_.asDigit).sum)
 }
