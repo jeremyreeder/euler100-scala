@@ -13,10 +13,10 @@ import scala.annotation.tailrec
 import scala.collection.mutable
 
 object Problem076 extends App {
-	def countSummations(sum: Int): Long = {
-		val memo = mutable.Map[(Int, Int), Long]()
+	def countSummations(sum: Int): Int = {
+		val memo = mutable.Map[(Int, Int), Int]()
 		
-		def count(sum: Int, summandMax: Int): Long = {
+		def count(sum: Int, summandMax: Int): Int = {
 			if (sum == 0) 1
 			else if (summandMax > sum) 0
 			else memo.getOrElseUpdate((sum, summandMax), count(sum - summandMax, summandMax) + count(sum, summandMax + 1))
