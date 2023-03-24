@@ -69,7 +69,7 @@ object Problem054 extends App {
 	
 	def outcomes =
 		for {
-			round <- Source.fromFile("054_poker.txt").getLines
+			round <- Source.fromFile("p054_poker.txt").getLines
 			cards = round.split(" ")
 			(handA, handB) = (cards take 5, cards takeRight 5)
 		} yield compareHands(handA, handB)

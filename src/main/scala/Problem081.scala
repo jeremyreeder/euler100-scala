@@ -11,7 +11,7 @@ object Problem081 extends App {
 	// This solution involves modifying the matrix in place until the value in every cell represents the minimum sum of
 	// all paths from the beginning up to that point.
 	
-	val file = Source.fromFile("081_matrix.txt")
+	val file = Source.fromFile("p081_matrix.txt")
 	val matrix = file.getLines.map(_.split(",").map(_.toInt)).toArray
 	file.close()
 	

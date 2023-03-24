@@ -6,14 +6,14 @@ By converting each letter in a word to a number corresponding to its alphabetica
 form a word value. For example, the word value for SKY is 19 + 11 + 25 = 55 = t[10]. If the word value is a triangle
 number then we shall call the word a triangle word.
 
-Using 042_words.txt, a 16K text file containing nearly two-thousand common
+Using p042_words.txt, a 16K text file containing nearly two-thousand common
 English words, how many are triangle words?
 */
 
 import io.Source
 
 object Problem042 extends App {
-	val file = Source.fromFile("042_words.txt")
+	val file = Source.fromFile("p042_words.txt")
 	val words = // Parse a file consisting of a series of quoted words, separated by commas.
 		try { file.mkString.split(",").map(_.drop(1).dropRight(1)).toList }
 		finally { file.close() }

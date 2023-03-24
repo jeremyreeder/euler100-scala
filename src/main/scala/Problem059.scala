@@ -14,7 +14,7 @@ Unfortunately, this method is impractical for most users, so the modified method
 password is shorter than the message, which is likely, the key is repeated cyclically throughout the message. The
 balance for this method is using a sufficiently long password key for security, but short enough to be memorable.
 
-Your task has been made easy, as the encryption key consists of three lower case characters. Using 059_cipher.txt, a
+Your task has been made easy, as the encryption key consists of three lower case characters. Using p059_cipher.txt, a
 file containing the encrypted ASCII codes, and the knowledge that the plain text must contain common English words,
 decrypt the message and find the sum of the ASCII values in the original text.
 */
@@ -22,7 +22,7 @@ import scala.io.Source
 
 object Problem059 extends App {
 	
-	val ciphertext = Source.fromFile("059_cipher.txt").mkString.split(',').map(_.toInt.toChar).mkString
+	val ciphertext = Source.fromFile("p059_cipher.txt").mkString.split(',').map(_.toInt.toChar).mkString
 	
 	def decrypt(ciphertext: String, key: String) =
 		(0 until ciphertext.length).map(pos => (ciphertext(pos) ^ key(pos % key.length)).toChar).mkString

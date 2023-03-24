@@ -14,7 +14,7 @@ For example, it would appear that there are at least six ways of writing the num
 However, according to the rules only XIIIIII and XVI are valid, and the last example is considered to be the most
 efficient, as it uses the least number of numerals.
 
-The 11K text file, 089_roman.txt, contains one thousand numbers written in valid, but not necessarily minimal, Roman
+The 11K text file, p089_roman.txt, contains one thousand numbers written in valid, but not necessarily minimal, Roman
 numerals; see [About... Roman Numerals](https://projecteuler.net/about=roman_numerals) for the definitive rules for this
 problem.
 
@@ -35,7 +35,7 @@ object Problem089 extends App {
 			.replaceFirst("CCCC", "CD")
 	
 	def answer =
-		val romanFile = Source fromFile "089_roman.txt"
+		val romanFile = Source fromFile "p089_roman.txt"
 		val romanNumbers = romanFile.getLines.toList
 		for number <- romanNumbers do
 			println(s"$number -> ${compact(number)}")

@@ -11,7 +11,7 @@ import io.Source
 
 object Problem079 extends App {
 	
-	val file = Source.fromFile("079_keylog.txt")
+	val file = Source.fromFile("p079_keylog.txt")
 	val oneTimePasscodes = file.getLines().toSet
 	file.close()
 	
