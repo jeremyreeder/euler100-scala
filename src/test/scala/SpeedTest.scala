@@ -9,12 +9,12 @@ import scala.concurrent.ExecutionContext
 
 class SpeedTest extends AnyFreeSpec with ParallelTestExecution {
 	
-	val timeLimit = 1.minutes
+	private val TimeLimit = 1.minutes
 	implicit val ec: ExecutionContext = ExecutionContext.global
 	for problem <- 1 to 100 do
-		s"Problem $problem should be solved within $timeLimit." in {
+		s"Problem $problem should be solved within $TimeLimit." in {
 			val solution = Future { solve(problem) }
-			Await.result(solution, timeLimit)
+			Await.result(solution, TimeLimit)
 		}
 	
 	def solve(problem: Int): Unit =
@@ -74,6 +74,7 @@ class SpeedTest extends AnyFreeSpec with ParallelTestExecution {
 			case 79 => Problem079
 			case 80 => Problem080
 			case 81 => Problem081
+			case 85 => Problem085
 			case 89 => Problem089
 			case 97 => Problem097
 			case 99 => Problem099
