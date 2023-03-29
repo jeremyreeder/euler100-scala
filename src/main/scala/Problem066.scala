@@ -14,40 +14,36 @@ By finding minimal solutions in x for D = {2, 3, 5, 6, 7}, we obtain the followi
 Hence, by considering minimal solutions in x for D ≤ 7, the largest x is obtained when D=5.
 Find the value of D ≤ 1000 in minimal solutions of x for which the largest value of x is obtained.
 */
-import math.Integral.Implicits.*
 import math.sqrt
-import scala.collection.mutable
 import System.currentTimeMillis
 
 object Problem066 extends App {
-	val Limit = 7
+	val Limit = 1000
 	
-	val PositiveSquares =
-		(LazyList from 1).map({ n =>
-			val nLong = n.toLong
-			nLong * nLong
-		}).takeWhile(_ >= 0)
+	def chakravala(d: Int): (Int, Int) = {
+		val m0 = math.sqrt(d).toInt
+		var x = m0
+		var y = 1
+		var k = x * x - d * y * y
+		
+		while k.abs != 1  && y != 0 do
+			val m = (m0 + x) / k
+			val nextX = m * k - x
+			val nextY = (d - nextX * nextX) / y
+			val kNext = (nextX * nextX - d) / k
+			x = nextX
+			y = nextY.abs
+			k = kNext
+		(x, y)
+	}
 	
-	def isSquare(n: Long) =
-		val root = sqrt(n)
-		root == root.floor
+	val nonSquares =
+		def isSquare(n: Long) = { val root = sqrt(n); root == root.floor }
+		(2 to Limit).filterNot(isSquare)
 	
-	def answer: Long = // TODO: Still way too slow.
-		var ds = (2 to Limit).map(_.toLong).filterNot(isSquare)
-		for {
-			x2 <- PositiveSquares
-			y2 <- PositiveSquares.takeWhile(_ < x2)
-			(d, r) = (x2 - 1) /% y2
-			if r == 0 && (ds contains d)
-		} do
-			ds = ds.filter(_ != d)
-			println(s"x^2 = $x2; y^2 = $y2; ${ds.size} possible values of D.")
-			if ds.size < 20 then
-				println(s"Possible values of D are: ${ds.mkString(", ")}.")
-			if ds.size == 1 then return ds.head
-		throw Error("No answer found.")
+	val answer = nonSquares.maxBy(chakravala(_)._1) // 962? Wrong.
 	
 	val startTime = currentTimeMillis()
 	println(answer)
-	println(s"That took ${(currentTimeMillis() - startTime) / 1000} seconds to calculate.")
+	println(s"That took ${currentTimeMillis() - startTime} milliseconds to calculate.")
 }
