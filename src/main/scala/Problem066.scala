@@ -24,32 +24,13 @@ object Problem066 extends App {
 	
 	val PositiveSquares =
 		(LazyList from 1).map({ n =>
-			var nLong = n.toLong
+			val nLong = n.toLong
 			nLong * nLong
 		}).takeWhile(_ >= 0)
-	
-	val Squares =
-		(LazyList from 0).map({ n =>
-			var nLong = n.toLong
-			nLong * nLong
-		}).takeWhile(_ >= 0)
-	
-	def isSquare(n: Int) =
-		val root = sqrt(n)
-		root == root.floor
 	
 	def isSquare(n: Long) =
 		val root = sqrt(n)
 		root == root.floor
-	
-	def minimalX(d: Long): Long =
-		if isSquare(d) then return 0
-		for {
-			y2 <- Squares.drop(1)
-			x2 = d * y2 + 1
-			if x2 > 0 && isSquare(x2)// && x2 - d * y2 == 1
-		} do return sqrt(x2).toLong
-		throw Error(s"No x found for d=$d.")
 	
 	def answer: Long = // TODO: Still way too slow.
 		var ds = (2 to Limit).map(_.toLong).filterNot(isSquare)
