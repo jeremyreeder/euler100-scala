@@ -14,16 +14,29 @@ By finding minimal solutions in x for D = {2, 3, 5, 6, 7}, we obtain the followi
 Hence, by considering minimal solutions in x for D ≤ 7, the largest x is obtained when D=5.
 Find the value of D ≤ 1000 in minimal solutions of x for which the largest value of x is obtained.
 */
+import math.Integral.Implicits.*
 import math.sqrt
+import scala.collection.mutable
+import System.currentTimeMillis
 
 object Problem066 extends App {
 	val Limit = 1000
+	
+	val PositiveSquares =
+		(LazyList from 1).map({ n =>
+			var nLong = n.toLong
+			nLong * nLong
+		}).takeWhile(_ >= 0)
 	
 	val Squares =
 		(LazyList from 0).map({ n =>
 			var nLong = n.toLong
 			nLong * nLong
 		}).takeWhile(_ >= 0)
+	
+	def isSquare(n: Int) =
+		val root = sqrt(n)
+		root == root.floor
 	
 	def isSquare(n: Long) =
 		val root = sqrt(n)
@@ -38,11 +51,22 @@ object Problem066 extends App {
 		} do return sqrt(x2).toLong
 		throw Error(s"No x found for d=$d.")
 	
-	lazy val answer = // TODO: Speed this up. It takes forever.
-		val ds = (2 to Limit).map(_.toLong).filterNot(isSquare)
-		ds.maxBy(minimalX)
+	def answer: Long = // TODO: Still way too slow.
+		var ds = (2 to Limit).map(_.toLong).filterNot(isSquare)
+		for {
+			x2 <- PositiveSquares
+			y2 <- PositiveSquares.takeWhile(_ < x2)
+			(d, r) = (x2 - 1) /% y2
+			if r == 0 && (ds contains d)
+		} do
+			ds = ds.filter(_ != d)
+			println(s"x^2 = $x2; y^2 = $y; ${ds.size} possible values of D.")
+			if ds.size < 20 then
+				println(s"Possible values of D are: ${ds.mkString(", ")}.")
+			if ds.size == 1 then return ds.head
+		throw Error("No answer found.")
 	
-	val startTime = System.currentTimeMillis()
+	val startTime = currentTimeMillis()
 	println(answer)
-	println(System.currentTimeMillis() - startTime)
+	println(s"That took ${(currentTimeMillis() - startTime) / 1000} seconds to calculate.")
 }
