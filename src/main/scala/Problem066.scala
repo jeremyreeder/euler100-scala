@@ -14,36 +14,36 @@ By finding minimal solutions in x for D = {2, 3, 5, 6, 7}, we obtain the followi
 Hence, by considering minimal solutions in x for D ≤ 7, the largest x is obtained when D=5.
 Find the value of D ≤ 1000 in minimal solutions of x for which the largest value of x is obtained.
 */
-import math.sqrt
-import System.currentTimeMillis
-
 object Problem066 extends App {
-	val Limit = 1000
 	
-	def chakravala(d: Int): (Int, Int) = {
-		val m0 = math.sqrt(d).toInt
-		var x = m0
-		var y = 1
-		var k = x * x - d * y * y
-		
-		while k.abs != 1  && y != 0 do
-			val m = (m0 + x) / k
-			val nextX = m * k - x
-			val nextY = (d - nextX * nextX) / y
-			val kNext = (nextX * nextX - d) / k
-			x = nextX
-			y = nextY.abs
-			k = kNext
-		(x, y)
+	def findD_withGreatestMinimalX(dLimit: Int) = { // Lagrange method
+		val (zero, one) = (BigInt(0), BigInt(1))
+		var result = 0; var greatestMinimalX = zero
+		for d <- 2 to dLimit do {
+			val sqrtD = math.sqrt(d).toInt
+			if sqrtD * sqrtD != d then
+				var (i, j, k) = (zero, one, BigInt(sqrtD))
+				var num1 = one
+				var num = k
+				var den1 = zero
+				var den = one
+				while num * num - d * den * den != 1 do
+					i = j * k - i
+					j = (d - i * i) / j
+					k = (sqrtD + i) / j
+					val num2 = num1;
+					val den2 = den1
+					num1 = num;
+					den1 = den
+					num = k * num1 + num2;
+					den = k * den1 + den2;
+				if num > greatestMinimalX then
+					greatestMinimalX = num
+					result = d
+		}
+		result
 	}
-	
-	val nonSquares =
-		def isSquare(n: Long) = { val root = sqrt(n); root == root.floor }
-		(2 to Limit).filterNot(isSquare)
-	
-	val answer = nonSquares.maxBy(chakravala(_)._1) // 962? Wrong.
-	
-	val startTime = currentTimeMillis()
+
+	val answer = findD_withGreatestMinimalX(dLimit = 1000)
 	println(answer)
-	println(s"That took ${currentTimeMillis() - startTime} milliseconds to calculate.")
 }
