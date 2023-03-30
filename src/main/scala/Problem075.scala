@@ -18,26 +18,27 @@ triangle be formed?
 */
 import math.sqrt
 import scala.annotation.tailrec
+import scala.collection.mutable
 
 object Problem075 extends App {
+	val Limit = 1_500_000
 	
 	@tailrec
 	def gcd(a: Int, b: Int): Int =
 		if b == 0 then a else gcd(b, a % b)
 	
-	def primitiveTriples(length: Int) =
-		for {
-			b <- 2 until length / 2
-			a <- 1 until b
-				if (gcd(a, b) == 1)
-			c = length - a - b
-				if a * a + b * b == c * c // Pythagorean Theorem
-		} yield (a, b, c)
+	lazy val tripleCounts = Array.fill(Limit + 1)(0)
 	
-	def tripleCount(length: Int) =
-		val divisors = 1 +: (2 to length / 2).filter(length % _ == 0) :+ length // TODO: speed this up
-		divisors.flatMap(primitiveTriples).size
-
-	val answer = (1 to 1_500_000).count(tripleCount(_) == 1)
+	lazy val answer = // Euclid's formula
+		for {
+			m <- 2 to sqrt(Limit / 2).toInt
+			n <- m-1 to 1 by -2
+				if (gcd(m, n) == 1)
+			ks = LazyList from 1
+			perimeter <- ks.map(2 * _ * m * (m + n)).takeWhile(_ <= Limit)
+		} do
+			tripleCounts(perimeter) += 1
+		tripleCounts.count(_ == 1)
+	
 	println(answer)
 }
