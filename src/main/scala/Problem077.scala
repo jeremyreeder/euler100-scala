@@ -8,22 +8,32 @@ It is possible to write ten as the sum of primes in exactly five different ways:
 
 What is the first value which can be written as the sum of primes in over five thousand different ways?
 */
-import scala.annotation.tailrec
+import annotation.tailrec
 
 object Problem077 extends App {
 	
 	def isPrime(n: BigInt) = n.isProbablePrime(certainty = 8)
 	
-	val primes = 2 #:: LazyList.range(3, Int.MaxValue, step = 2).filter(isPrime)
+	def findNumberWithSummationCountGreaterThan(floor: Int): Int = {
+		def search(floor: Int, limit: Int): Option[Int] =
+			val partitions = Array.fill(limit + 1)(0)
+			partitions(0) = 1
+			for {
+				i <- partitions.indices
+					if isPrime(i)
+				j <- i to partitions.indices.last
+			} do partitions(j) += partitions(j - i)
+			partitions.find(_ > floor)
+		
+		var limit = 1
+		while limit > 0 do
+			search(floor, limit) match {
+				case Some(n) => return n
+				case None => limit *= 2
+			}
+		throw Error("No answer found.")
+	}
 	
-	/* Having observed that, for values of n from 4 to 12, primeSummations(n) increments once at each non-prime value of
-	 * n and temporarily reverts to zero upon each prime value, I conjecture that this is true for all larger values of n
-	 * as well. */
-	def primeSummations(n: Int) =
-		if n < 4 || isPrime(n) then 0
-		else n - primes.takeWhile(_ < n).size - 1
-	
-	val Floor = 5000
-	val answer = (LazyList from Floor).find(primeSummations(_) > Floor).get // This outputs 5759, but that's wrong.
+	val answer = findNumberWithSummationCountGreaterThan(floor = 10) // Buggy. Says 12, but the real answer is 5.
 	println(answer)
 }
