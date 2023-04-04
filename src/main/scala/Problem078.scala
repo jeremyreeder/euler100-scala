@@ -11,31 +11,29 @@ OO   O   O   O
 O   O   O   O   O
 Find the least value of n for which p(n) is divisible by one million.
 */
+import collection.mutable
+import util.control.Breaks.{break, breakable}
+
 object Problem078 extends App {
 	
-	def partition(n: Int): BigInt = {
-		val cache = Array.fill[BigInt](n + 1)(-1)
-		
-		def loop(m: Int): BigInt = {
-			if m < 0 then 0
-			else if m == 0 then 1
-			else if cache(m) != -1 then cache(m)
-			else
-				var sum = BigInt(0)
-				var k = 1
+	def answer: Option[Int] =
+		val partitions = mutable.ArrayBuffer[BigInt]()
+		partitions += 1
+		for n <- LazyList from 1 do
+			var (k, sum) = (1, BigInt(0))
+			breakable {
 				while (true) do
-					val pentagonal1 = k * (3 * k - 1) / 2
-					val pentagonal2 = k * (3 * k + 1) / 2
-					if pentagonal1 > m then return sum
-					sum += (if k % 2 == 0 then -1 else 1) * (loop(m - pentagonal1) + loop(m - pentagonal2))
+					val pent1 = k * (3 * k - 1) / 2
+					val pent2 = k * (3 * k + 1) / 2
+					if pent1 > n then break
+					val (i, j) = (n - pent1, n - pent2)
+					val m = (if i < 0 then BigInt(0) else partitions(i)) + (if j < 0 then BigInt(0) else partitions(j))
+					sum += (if k % 2 == 0 then -1 else 1) * m
 					k += 1
-				cache(m) = sum
-				sum
-		}
-		
-		loop(n)
-	}
+			}
+			if sum % 1_000_000 == 0 then return Some(n)
+			else partitions += sum
+		None
 	
-	val answer = (LazyList from 1).find(partition(_) % 1_000_000 == 0)
-	println(answer) // Still way to slow. TODO: Make it fast.
+	println(answer.get)
 }
