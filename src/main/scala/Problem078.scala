@@ -27,8 +27,9 @@ object Problem078 extends App {
 					val pent2 = k * (3 * k + 1) / 2
 					if pent1 > n then break
 					val (i, j) = (n - pent1, n - pent2)
-					val m = (if i < 0 then BigInt(0) else partitions(i)) + (if j < 0 then BigInt(0) else partitions(j))
-					sum += (if k % 2 == 0 then -1 else 1) * m
+					val partI = if i < 0 then BigInt(0) else partitions(i)
+					val partJ = if j < 0 then BigInt(0) else partitions(j)
+					sum += (if k % 2 == 0 then -1 else 1) * (partI + partJ)
 					k += 1
 			}
 			if sum % 1_000_000 == 0 then return Some(n)
