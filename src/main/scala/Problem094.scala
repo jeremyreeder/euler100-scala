@@ -8,48 +8,22 @@ no more than one unit.
 Find the sum of the perimeters of all almost equilateral triangles with integral side lengths and area and whose
 perimeters do not exceed one billion (1,000,000,000).
 */
-import math.{pow, sqrt}
-
 object Problem094 extends App {
 
-	/* The triangles described are the almost-equilateral isoscelese Heronian triangles, each of which is formed by
-	combining a Pythagorean triangle with its mirror image. For this to work out, the Pythagorean triangle must be one
-	whose hypotenuse C differs from twice its shortest leg A by exactly 1. I'll call these Heronian Pythagorean
-	triangles. The first Pythagorean triangle, (3, 4, 5), is such a triangle. Since the Pythagorean triangle gets
-	combined with the mirror image of itself, the resulting area is equivalent to the area of a rectangular with
-	integral sides, making the area integral as well. */
+	val almostEquilateralIsoscelesTriples = {
+		val abundantTriples =
+			lazy val xs: LazyList[Long] = 5L #:: 65L #:: (LazyList from 2).map(i => 14 * xs(i - 1) - xs(i - 2) - 4)
+			for x <- xs; y = x; z = x + 1
+				yield (x, y, z)
+		
+		val deficientTriples =
+			lazy val xs: LazyList[Long] = 17L #:: 241L #:: (LazyList from 2).map(i => 14 * xs(i - 1) - xs(i - 2) + 4)
+			for x <- xs; y = x; z = x - 1
+				yield (x, y, z)
+		
+		(abundantTriples zip deficientTriples).flatMap((at, dt) => List(at, dt))
+	}
 	
-	val MaxPerimeter = 1_000_000_000L // TODO: needs to handle a billion
-	
-	def heronianPythagoreanTriples =
-		for {
-			a <- 3L to MaxPerimeter / 6 + 1
-			c <- Seq(a * 2 - 1, a * 2 + 1)
-			b = sqrt(pow(c, 2) - pow(a, 2)) // too little precision in a Double, perhaps?
-				if b == b.floor
-		} yield (a, c) // b is unused hereafter
-	
-	def almostEquilateralIsoscelesHeronianTriples =
-		for {
-			(a, c) <- heronianPythagoreanTriples
-			(x, z) = (c, a * 2)
-		} yield
-			(x, z) // y is redundant, since it's equal to x
-	
-	def perimeter(triangle: (Long, Long)) =
-		val (x, z) = triangle
-		BigInt(x) * 2 + z
-	
-	val startTime = System.currentTimeMillis()
-	
-	println(heronianPythagoreanTriples.takeRight(5))
-	println(almostEquilateralIsoscelesHeronianTriples.take(5))
-	
-	val answer = almostEquilateralIsoscelesHeronianTriples.map(perimeter).takeWhile(_ <= MaxPerimeter).sum
-	
+	val answer = almostEquilateralIsoscelesTriples.map(_ + _ + _).takeWhile(_ <= 1_000_000_000).sum
 	println(answer)
-	// All I've got so far are incorrect answers:
-	// 2_664_374_306, 4_489_548_014, 5_479_171_588, 11_138_120_726, 3_636_997_891_390
-	
-	println(System.currentTimeMillis() - startTime) // As of 2023-04-06T08, this takes 83 seconds.
 }
