@@ -19,24 +19,23 @@ What is the sum of all the minimal product-sum numbers for 2≤k≤12000?
 */
 object Problem088 extends App {
 	
-	val Limit = 12_000
-	val minSumProduct = Array.fill(Limit + 1)(0)
+	def canProductEqualSum(product: Int, sum: Int, termCount: Int): Boolean =
+		if sum < termCount then return false
+		if product == 1 then return sum == termCount
+		if termCount == 1 then return product == sum
+		var divisor = 2
+		while divisor <= product && sum - divisor >= termCount - 1 do
+			if product % divisor == 0 && canProductEqualSum(product / divisor, sum - divisor, termCount - 1) then
+				return true
+			divisor += 1
+		false
 	
-	def factorize(n: Int, remainder: Int, maxFactor: Int, sum: Int, terms: Int): Unit = {
-		var k = terms
-		if remainder == 1 then
-			k += n - sum
-			if k <= Limit && (minSumProduct(k) == 0 || n < minSumProduct(k)) then
-				minSumProduct(k) = n
-		else
-			for factor <- 2 to maxFactor do
-				if remainder % factor == 0 then
-					factorize(n, remainder / factor, factor min maxFactor, sum + factor, k + 1)
-	}
+	def minimalProductSum(termCount: Int): Int =
+		val maxResult = 2 * termCount
+		for n <- termCount + 1 until maxResult do
+			if canProductEqualSum(n, n, termCount) then return n
+		maxResult
 	
-	for i <- 2 to 2 * Limit do
-		factorize(i, i, i, 0, 0)
-	
-	val answer = minSumProduct.drop(2).distinct.sum
+	val answer = (2 to 12_000).map(minimalProductSum).distinct.sum
 	println(answer)
 }
