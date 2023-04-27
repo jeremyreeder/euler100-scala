@@ -88,6 +88,7 @@ class SpeedTest extends AnyFreeSpec with ParallelTestExecution {
 			case 91 => Problem091
 			case 94 => Problem094
 			case 97 => Problem097
+			case 98 => Problem098
 			case 99 => Problem099
 			case 100 => Problem100
 			case _ => unimplemented
