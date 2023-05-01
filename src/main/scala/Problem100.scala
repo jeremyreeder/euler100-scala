@@ -8,33 +8,16 @@ eighty-five blue discs and thirty-five red discs.
 By finding the first arrangement to contain over 10^12 = 1,000,000,000,000 discs in total, determine the number of blue
 discs that the box would contain.
 */
+import math.sqrt
+
 object Problem100 extends App {
-	// b/d * (b-1)/(d-1) = 1/2
-	// d/b ~= sqrt(2); d/b < sqrt(2); (d-1)/(b-1) > sqrt(2)
 	
-	extension (n: BigInt) {
-		def sqrt =
-			val d = BigDecimal(n)
-			var a = BigDecimal(1)
-			var b = d
-			while b >= a do
-				val mid = (a + b) / 2
-				if mid * mid > d then b = mid - 0.000_001
-				else a = mid + 0.000_001
-			b
-	}
+	lazy val bs: LazyList[Long] =
+		15L #:: 85L #:: (LazyList from 2).map(n => 6 * bs(n - 1) - bs(n - 2) - 2)
 	
-	val MinD = BigInt(1_000_000_000_000L)
-	
-	def solutions =
-		for {
-			d <- LazyList.range(MinD, MinD + Int.MaxValue)
-			b = ((2 * d * d - 2 * d + 1).sqrt + 1) / 2
-				if b.isWhole
-		} yield (b, d)
-	
-	println(BigInt(81).sqrt)
-	solutions.take(14).foreach(println)
-	//println(answer) // 1_168_070_918 is wrong.
-	// TODO: Solve this problem.
+	val dFloor = 1_000_000_000_000L
+	val bFloor = (dFloor.toDouble / sqrt(2)).toLong
+	val answer = bs.find(_ > bFloor).get
+	println(answer)
+	println((answer*sqrt(2)).toLong)
 }
