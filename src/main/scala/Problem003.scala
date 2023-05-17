@@ -14,13 +14,13 @@ object Problem003 extends App {
 		var x = n
 		var result = 1L
 		while x > result do
-			for y <- primes takeWhile (_ <= x) do
+			val sqrtX = sqrt(x).toInt
+			for y <- primes takeWhile (_ <= sqrtX) do
 				if x % y == 0 then
 					x /= y
 					result = y
 		result
 	
-	println(s"The first ten prime numbers are: ${(primes take 10).toList mkString ", "}.")
-	for number <- Seq(13_195, 600_851_475_143L) do
-		println(s"The largest prime factor of $number is ${largestPrimeFactor(number)}.")
+	val answer = largestPrimeFactor(600_851_475_143L)
+	println(answer)
 }
